@@ -1,0 +1,946 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>[Tu Marca] · Carnicería y Almacén online</title>
+  <meta name="description" content="Carne cortada a pedido y almacén completo con envío en el día en [ZONA DE ENVÍO].">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <script type="module" src="/src/pages/landing-auth.ts"></script>
+
+  <style>
+    /* ===== Tokens ===== */
+    :root {
+      --accent: #8E1B1B;
+      --accent-hover: #6E1414;
+      --accent-soft: #F8ECEC;
+      --accent-on-dark: #E7A9A9;
+      --ink: #1C1A18;
+      --ink-2: #4A4540;
+      --muted: #5F5A54;
+      --placeholder-text: #6A645D;
+      --ok: #1F6B4F;
+      --bg: #FFFFFF;
+      --surface: #FAF9F7;
+      --surface-2: #F2EFEB;
+      --input-bg: #F5F3F0;
+      --line: #8C857D;
+      --line-soft: #ECE8E3;
+      --dark: #1C1A18;
+      --dark-2: #2B2724;
+      --dark-line: #4A4440;
+      --dark-text: #F2EFEA;
+      --dark-muted: #C9C2BA;
+
+      --font-display: "Archivo", system-ui, sans-serif;
+      --font-body: "Inter", system-ui, sans-serif;
+
+      --radius-sm: 10px;
+      --radius: 16px;
+      --radius-lg: 20px;
+      --container: 1240px;
+      --gutter: 16px;
+      --tap: 44px;
+    }
+
+    /* ===== Base ===== */
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font-body); -webkit-font-smoothing: antialiased; }
+    img { max-width: 100%; display: block; }
+    a { color: var(--accent); }
+    a:hover { color: var(--accent-hover); }
+    button { font: inherit; cursor: pointer; }
+    h1, h2, h3 { margin: 0; }
+    p { margin: 0; }
+    .container { max-width: var(--container); margin: 0 auto; padding-left: var(--gutter); padding-right: var(--gutter); }
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    :focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+    .eyebrow { font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+    .h2 { font-family: var(--font-display); font-weight: 800; font-size: clamp(28px, 3.4vw, 42px); letter-spacing: -0.02em; }
+    .section-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap; margin-bottom: 28px; }
+    .section-head > div:not(.tabs) { display: flex; flex-direction: column; gap: 8px; }
+
+    /* Placeholder de imagen: reemplazar por <img> real */
+    .ph { background: var(--surface-2); border: 1px solid var(--line); display: flex; align-items: flex-end; padding: 12px; font-size: 12px; color: var(--placeholder-text); }
+
+    /* ===== Botones ===== */
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 52px; padding: 0 24px; border-radius: 12px; font-weight: 600; font-size: 16px; text-decoration: none; border: 0; }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: var(--accent-hover); color: #fff; }
+    .btn-outline { border: 1.5px solid var(--ink); color: var(--ink); background: transparent; }
+    .btn-outline:hover { background: var(--ink); color: #fff; }
+    .btn-light { background: #fff; color: var(--ink); }
+    .btn-light:hover { color: var(--ink); background: var(--surface-2); }
+
+    /* ===== Barra superior ===== */
+    .topbar { background: var(--dark); color: var(--dark-text); font-size: 13px; padding: 9px var(--gutter); display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; text-align: center; }
+    .topbar .dot { opacity: .5; }
+
+    /* ===== Header ===== */
+    .header { position: sticky; top: 0; z-index: 20; background: rgba(255,255,255,.96); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line-soft); transition: box-shadow .2s; }
+    .header.is-scrolled { box-shadow: 0 6px 24px rgba(20,18,16,.08); }
+    .header-inner { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; padding-top: 14px; padding-bottom: 14px; }
+    .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); }
+    .brand:hover { color: var(--ink); }
+    .brand-mark { width: 40px; height: 40px; border-radius: var(--radius-sm); background: var(--accent); display: flex; align-items: center; justify-content: center; color: #fff; font-family: var(--font-display); font-weight: 800; font-size: 18px; }
+    .brand-text { display: flex; flex-direction: column; line-height: 1.1; }
+    .brand-name { font-family: var(--font-display); font-weight: 800; font-size: 18px; letter-spacing: -0.01em; }
+    .brand-sub { font-size: 12px; color: var(--muted); }
+    .nav { display: flex; gap: 24px; font-size: 15px; font-weight: 500; }
+    .nav a { color: var(--ink); text-decoration: none; }
+    .nav a:hover { color: var(--accent); }
+    .search { flex: 1 1 220px; display: flex; align-items: center; gap: 8px; background: var(--input-bg); border: 1px solid #E6E1DB; border-radius: var(--radius-sm); padding: 0 12px; min-height: var(--tap); }
+    .search:focus-within { border-color: var(--ink); }
+    .search input { border: 0; background: transparent; outline: none; font: inherit; font-size: 15px; width: 100%; color: var(--ink); }
+    .cart-btn { position: relative; display: flex; align-items: center; gap: 8px; min-height: var(--tap); padding: 0 16px; border-radius: var(--radius-sm); border: 1px solid var(--ink); background: var(--ink); color: #fff; font-size: 15px; font-weight: 600; }
+    .auth-btn { display: flex; align-items: center; gap: 8px; min-height: var(--tap); padding: 0 16px; border-radius: var(--radius-sm); border: 1.5px solid var(--ink); color: var(--ink); background: transparent; font-size: 15px; font-weight: 600; text-decoration: none; }
+    .auth-btn:hover { background: var(--ink); color: #fff; }
+    .badge { min-width: 24px; height: 24px; border-radius: 12px; background: var(--accent); color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; padding: 0 6px; }
+
+    /* ===== Hero ===== */
+    .hero { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 48px; align-items: center; padding-top: 56px; padding-bottom: 40px; }
+    .hero-copy { display: flex; flex-direction: column; gap: 24px; }
+    .pill { align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: var(--accent); background: var(--accent-soft); padding: 6px 12px; border-radius: 999px; }
+    .hero h1 { font-family: var(--font-display); font-weight: 800; font-size: clamp(36px, 5.2vw, 64px); line-height: 1.02; letter-spacing: -0.025em; }
+    .hero-lead { font-size: clamp(16px, 1.4vw, 19px); line-height: 1.55; color: var(--ink-2); max-width: 520px; }
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; }
+    .trust-inline { display: flex; flex-wrap: wrap; gap: 20px; font-size: 14px; color: var(--ink-2); padding-top: 4px; }
+    .trust-inline span { display: flex; align-items: center; gap: 8px; }
+    .hero-media { position: relative; border-radius: var(--radius-lg); overflow: hidden; height: clamp(320px, 42vw, 540px); background: #2A2522; }
+    .hero-photo { position: absolute; top: -40px; left: 0; width: 100%; height: calc(100% + 40px); object-fit: cover; background: repeating-linear-gradient(135deg, #332C28 0 22px, #2E2824 22px 44px); will-change: transform; }
+    .hero-card { position: absolute; left: 16px; right: 16px; bottom: 16px; background: #fff; border-radius: 14px; padding: 16px; display: flex; align-items: center; gap: 14px; box-shadow: 0 10px 30px rgba(0,0,0,.18); }
+    .icon-box { width: 44px; height: 44px; border-radius: var(--radius-sm); background: var(--accent-soft); display: flex; align-items: center; justify-content: center; flex: none; }
+    .hero-card strong { display: block; font-weight: 600; font-size: 15px; }
+    .hero-card small { font-size: 13px; color: var(--muted); }
+
+    /* ===== Franja de confianza ===== */
+    .trust { border-top: 1px solid var(--line-soft); border-bottom: 1px solid var(--line-soft); background: var(--surface); }
+    .trust-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 28px; padding-top: 32px; padding-bottom: 32px; }
+    .trust-item { display: flex; gap: 14px; align-items: flex-start; }
+    .trust-item svg { flex: none; }
+    .trust-item strong { display: block; font-weight: 600; font-size: 16px; margin-bottom: 4px; }
+    .trust-item p { font-size: 14px; color: var(--muted); line-height: 1.45; }
+
+    /* ===== Categorías ===== */
+    .categories { padding-top: 72px; padding-bottom: 24px; }
+    .cat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 170px), 1fr)); gap: 16px; }
+    .cat { display: flex; flex-direction: column; gap: 12px; text-decoration: none; color: var(--ink); }
+    .cat:hover { color: var(--accent); }
+    .cat .ph { aspect-ratio: 1 / 1; border-radius: var(--radius); transition: transform .25s; }
+    .cat:hover .ph { transform: translateY(-3px); }
+    .cat-label { display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 16px; }
+
+    /* ===== Productos ===== */
+    .products { padding-top: 56px; padding-bottom: 72px; scroll-margin-top: 80px; }
+    .tabs { display: inline-flex; padding: 4px; background: var(--surface-2); border: 1px solid var(--line); border-radius: 12px; gap: 4px; }
+    .tab { min-height: var(--tap); padding: 0 18px; border-radius: 9px; border: 0; font-size: 15px; font-weight: 600; background: transparent; color: var(--muted); }
+    .tab[aria-pressed="true"] { background: var(--accent); color: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.12); }
+    .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); gap: 20px; }
+    .card { display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: var(--surface-2); transition: box-shadow .2s, transform .2s; }
+    .card:hover { box-shadow: 0 10px 28px rgba(20,18,16,.08); transform: translateY(-2px); }
+    .card .ph { position: relative; aspect-ratio: 4 / 3; border: 0; overflow: hidden; background: var(--surface-2); }
+    .card .ph img {
+      position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+      -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
+      mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
+    }
+    .tag { position: absolute; top: 12px; left: 12px; background: #fff; color: var(--ink); font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--line); }
+    .card-body { padding: 16px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
+    .card-body h3 { font-size: 17px; font-weight: 600; }
+    .card-detail { font-size: 14px; color: var(--muted); }
+    .price { display: flex; align-items: baseline; gap: 6px; margin-top: 6px; }
+    .price b { font-family: var(--font-display); font-weight: 700; font-size: 22px; }
+    .price span { font-size: 14px; color: var(--muted); }
+    .card-cta { margin-top: auto; padding-top: 12px; }
+    .add-btn { width: 100%; min-height: 46px; border-radius: var(--radius-sm); border: 0; background: var(--accent); color: #fff; font-size: 15px; font-weight: 600; }
+    .add-btn:hover { background: var(--accent-hover); }
+    .stepper { display: flex; align-items: center; justify-content: space-between; border: 1.5px solid var(--ink); border-radius: var(--radius-sm); min-height: 46px; }
+    .stepper button { width: 46px; height: 44px; border: 0; background: transparent; font-size: 20px; color: var(--ink); }
+    .stepper output { font-weight: 600; font-size: 15px; }
+    .kg-field { display: flex; align-items: center; border: 1.5px solid var(--line); border-radius: var(--radius-sm); min-height: 46px; margin-bottom: 10px; overflow: hidden; }
+    .kg-field input { flex: 1; min-width: 0; height: 44px; border: 0; padding: 0 12px; font: inherit; font-size: 15px; color: var(--ink); background: transparent; }
+    .kg-field input:focus-visible { outline: 3px solid var(--accent); outline-offset: -2px; }
+    .kg-field span { padding: 0 12px; color: var(--muted); font-size: 14px; border-left: 1.5px solid var(--line); height: 44px; display: flex; align-items: center; }
+    .kg-field input::-webkit-outer-spin-button, .kg-field input::-webkit-inner-spin-button { margin: 0; }
+
+    /* ===== Combos ===== */
+    .combos { background: var(--dark); color: var(--dark-text); scroll-margin-top: 80px; }
+    .combos-inner { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 48px; align-items: center; padding-top: 80px; padding-bottom: 80px; }
+    .combos-copy { display: flex; flex-direction: column; gap: 20px; }
+    .combos .eyebrow { color: var(--accent-on-dark); }
+    .combos h2 { font-family: var(--font-display); font-weight: 800; font-size: clamp(30px, 3.8vw, 48px); line-height: 1.05; letter-spacing: -0.02em; }
+    .combos p { font-size: 17px; line-height: 1.55; color: var(--dark-muted); max-width: 480px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 10px; }
+    .chip { border: 1px solid var(--dark-line); border-radius: 999px; padding: 8px 14px; font-size: 14px; background: transparent; color: var(--dark-text); min-height: 40px; }
+    .chip[aria-pressed="true"] { background: var(--dark-text); color: var(--ink); border-color: var(--dark-text); }
+    .combos .btn { align-self: flex-start; }
+    .combos-media { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+    .combos-media .ph { aspect-ratio: 1 / 1; border-radius: var(--radius); background: var(--dark-2); border: 0; color: #A39A91; }
+    .combos-media .ph:last-child { transform: translateY(28px); }
+
+    /* ===== Cómo comprar ===== */
+    .how { padding-top: 88px; padding-bottom: 40px; scroll-margin-top: 80px; }
+    .how .section-head { justify-content: center; text-align: center; }
+    .how .section-head > div { align-items: center; }
+    .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+    .step { border: 1px solid var(--line); border-radius: var(--radius); padding: 28px; display: flex; flex-direction: column; gap: 12px; }
+    .step-n { font-family: var(--font-display); font-weight: 800; font-size: 40px; color: var(--accent); }
+    .step h3 { font-size: 19px; font-weight: 600; }
+    .step p { font-size: 15px; line-height: 1.55; color: var(--muted); }
+
+    /* ===== FAQ ===== */
+    .faq { max-width: 820px; padding-top: 56px; padding-bottom: 88px; }
+    .faq .h2 { font-size: clamp(26px, 3vw, 36px); margin-bottom: 24px; }
+    .faq-list { border-top: 1px solid var(--line); }
+    .faq details { border-bottom: 1px solid var(--line); }
+    .faq summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 20px 0; font-weight: 600; font-size: 17px; min-height: var(--tap); }
+    .faq summary::-webkit-details-marker { display: none; }
+    .faq .chev { flex: none; transition: transform .2s; }
+    .faq details[open] .chev { transform: rotate(180deg); }
+    .faq details p { padding-bottom: 20px; font-size: 15px; line-height: 1.6; color: var(--muted); }
+
+    /* ===== Footer ===== */
+    .footer { background: var(--surface); border-top: 1px solid var(--line-soft); }
+    .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 32px; padding-top: 56px; padding-bottom: 32px; }
+    .footer-col { display: flex; flex-direction: column; gap: 10px; font-size: 14px; }
+    .footer-col strong { font-weight: 600; }
+    .footer-col span, .footer-col a { color: var(--muted); }
+    .footer-col a:hover { color: var(--accent); }
+    .footer-brand { font-family: var(--font-display); font-weight: 800; font-size: 20px; }
+    .footer-legal { border-top: 1px solid var(--line-soft); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; font-size: 13px; color: var(--muted); padding-top: 20px; padding-bottom: 96px; }
+
+    /* ===== Barra flotante de carrito ===== */
+    .cartbar { position: fixed; left: 0; right: 0; bottom: 16px; z-index: 30; display: flex; justify-content: center; padding: 0 var(--gutter); pointer-events: none; transform: translateY(140%); transition: transform .3s ease; }
+    .cartbar.is-visible { transform: none; }
+    .cartbar-inner { pointer-events: auto; width: 100%; max-width: 560px; display: flex; align-items: center; justify-content: space-between; gap: 12px; background: var(--dark); color: #fff; border-radius: 14px; padding: 10px 10px 10px 18px; box-shadow: 0 12px 32px rgba(0,0,0,.25); font-size: 15px; }
+    .cartbar button { min-height: var(--tap); padding: 0 18px; border-radius: var(--radius-sm); border: 0; background: var(--accent); color: #fff; font-weight: 600; font-size: 15px; }
+
+    /* ===== Toast ===== */
+    .toast { position: fixed; top: 16px; left: 50%; transform: translateX(-50%) translateY(-16px); z-index: 50; display: flex; align-items: center; gap: 10px; background: var(--ink); color: #fff; padding: 12px 18px; border-radius: 999px; font-size: 14px; font-weight: 600; box-shadow: 0 12px 32px rgba(0,0,0,.2); opacity: 0; pointer-events: none; transition: opacity .25s ease, transform .25s ease; }
+    .toast.is-visible { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .toast-icon { width: 20px; height: 20px; border-radius: 999px; background: var(--ok); display: flex; align-items: center; justify-content: center; flex: none; }
+    @media (prefers-reduced-motion: reduce) { .toast { transition: opacity .01ms linear; transform: translateX(-50%); } }
+
+    /* ===== Drawer de carrito ===== */
+    .cart-overlay { position: fixed; inset: 0; background: rgba(20,18,16,.45); z-index: 40; opacity: 0; pointer-events: none; transition: opacity .25s ease; }
+    .cart-overlay.is-open { opacity: 1; pointer-events: auto; }
+    .cart-drawer { position: fixed; top: 0; right: 0; bottom: 0; z-index: 41; width: min(420px, 100%); background: #fff; display: flex; flex-direction: column; transform: translateX(100%); transition: transform .3s ease; box-shadow: -12px 0 32px rgba(0,0,0,.15); }
+    .cart-drawer.is-open { transform: none; }
+    .cart-drawer-head { display: flex; align-items: center; justify-content: space-between; padding: 18px 20px; border-bottom: 1px solid var(--line-soft); }
+    .cart-drawer-head h2 { font-family: var(--font-display); font-weight: 800; font-size: 19px; }
+    .cart-drawer-close { width: 40px; height: 40px; border-radius: 999px; border: 0; background: var(--surface-2); color: var(--ink); display: flex; align-items: center; justify-content: center; }
+    .cart-drawer-body { flex: 1; overflow-y: auto; padding: 8px 20px; }
+    .cart-empty { color: var(--muted); font-size: 15px; padding: 32px 0; text-align: center; }
+    .cart-item { display: flex; gap: 12px; padding: 16px 0; border-bottom: 1px solid var(--line-soft); }
+    .cart-item .ph { width: 64px; height: 64px; border-radius: 10px; flex: none; font-size: 10px; padding: 6px; }
+    .cart-item-body { flex: 1; min-width: 0; }
+    .cart-item-body h3 { font-size: 15px; font-weight: 600; }
+    .cart-item-qty { font-size: 13px; color: var(--muted); margin-top: 2px; }
+    .cart-item-row { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; }
+    .cart-item-price { font-weight: 700; font-size: 15px; }
+    .cart-item-remove { font-size: 13px; color: var(--accent); font-weight: 600; background: none; border: 0; padding: 0; }
+    .cart-item-note { width: 100%; min-height: 36px; margin-top: 8px; padding: 0 10px; border-radius: 8px; border: 1px solid var(--line); font: inherit; font-size: 13px; color: var(--ink); background: var(--surface); }
+    .cart-item-note::placeholder { color: var(--placeholder-text); }
+    .cart-item-note:focus-visible { outline: 3px solid var(--accent); outline-offset: -2px; }
+    .cart-drawer-foot { padding: 18px 20px; border-top: 1px solid var(--line-soft); }
+    .cart-total-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px; }
+    .cart-total-row b { font-family: var(--font-display); font-size: 20px; }
+    .cart-total-note { font-size: 13px; color: var(--muted); margin-bottom: 14px; }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 860px) {
+      .nav, .hide-sm { display: none; }
+      .header-inner { gap: 12px; }
+      .search { order: 3; flex-basis: 100%; }
+      .cart-btn .cart-label { display: none; }
+      .auth-btn .auth-label { display: none; }
+      .auth-btn { padding: 0 12px; }
+      .brand-text { display: none; }
+      .brand { margin-right: auto; }
+    }
+
+    /* ===== Efectos de scroll =====
+       1) CSS scroll-driven animations donde haya soporte (Chrome/Edge).
+       2) Fallback con IntersectionObserver (clase .is-in) en el resto.
+       3) Sin animación si el usuario pidió reducir movimiento. */
+    @keyframes rise { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: none; } }
+    @keyframes drift { from { transform: translateY(0) scale(1.02); } to { transform: translateY(60px) scale(1.06); } }
+
+    @media (prefers-reduced-motion: no-preference) {
+      @supports (animation-timeline: view()) {
+        .reveal { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% entry 45%; }
+        .hero-photo { animation: drift linear both; animation-timeline: scroll(); animation-range: 0 700px; }
+      }
+      @supports not (animation-timeline: view()) {
+        .js .reveal { opacity: 0; transform: translateY(28px); transition: opacity .6s ease, transform .6s ease; }
+        .js .reveal.is-in { opacity: 1; transform: none; }
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition: none !important; animation: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== Barra superior ===== -->
+  <div class="topbar">
+    <span>Envíos en el día en [ZONA DE ENVÍO]</span>
+    <span class="dot hide-sm" aria-hidden="true">·</span>
+    <span class="hide-sm">Pedidos hasta las 18 h</span>
+    <span class="dot hide-sm" aria-hidden="true">·</span>
+    <span class="hide-sm">Envío gratis desde $ 40.000</span>
+  </div>
+
+  <!-- ===== Header ===== -->
+  <header class="header" id="header">
+    <div class="container header-inner">
+      <a href="#inicio" class="brand" aria-label="[Tu Marca], inicio">
+        <span class="brand-mark" aria-hidden="true">TM</span>
+        <span class="brand-text">
+          <span class="brand-name">[Tu Marca]</span>
+          <span class="brand-sub">Carnicería &amp; Almacén</span>
+        </span>
+      </a>
+      <nav class="nav" aria-label="Principal">
+        <a href="#productos" data-tab-link="carne">Carnicería</a>
+        <a href="#productos" data-tab-link="granja">Granja</a>
+        <a href="#productos" data-tab-link="almacen">Almacén</a>
+        <a href="#combos">Combos</a>
+        <a href="#como">Cómo comprar</a>
+      </nav>
+      <form class="search" role="search" action="#productos">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5F5A54" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+        <label for="buscar" class="sr-only">Buscar productos</label>
+        <input id="buscar" type="search" placeholder="Buscar vacío, bondiola, yerba…" autocomplete="off">
+      </form>
+      <a href="/login.html" class="auth-btn" id="authBtn" aria-label="Iniciar sesión">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span class="auth-label" id="authLabel">Iniciar sesión</span>
+      </a>
+      <button type="button" class="cart-btn" id="cartBtn" aria-label="Ver carrito, 0 productos">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.5L21 8H6"/><circle cx="10" cy="20" r="1.3"/><circle cx="17" cy="20" r="1.3"/></svg>
+        <span class="cart-label">Carrito</span>
+        <span class="badge" data-cart-count>0</span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- ===== Hero ===== -->
+    <section id="inicio" class="container hero">
+      <div class="hero-copy">
+        <span class="pill">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+          Cortes del día, preparados a pedido
+        </span>
+        <h1>Carne de calidad y almacén completo, en la puerta de tu casa.</h1>
+        <p class="hero-lead">Elegí tus cortes, decinos cómo los querés y armá el resto del pedido con productos de almacén. Lo preparamos en el momento y te lo llevamos con cadena de frío.</p>
+        <div class="actions">
+          <a href="#productos" class="btn btn-primary" data-tab-link="carne">Ver carnicería
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a href="#productos" class="btn btn-outline" data-tab-link="almacen">Ver almacén</a>
+        </div>
+        <div class="trust-inline">
+          <span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1F6B4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6l8-3z"/><path d="M9 12l2 2 4-4"/></svg>Pago seguro</span>
+          <span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1F6B4F" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 2v20M4 7l16 10M20 7L4 17"/></svg>Cadena de frío</span>
+          <span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1F6B4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="18" r="1.6"/><circle cx="17" cy="18" r="1.6"/></svg>Envío en el día</span>
+        </div>
+      </div>
+      <div class="hero-media">
+        <img class="hero-photo" src="https://images.pexels.com/photos/8444102/pexels-photo-8444102.jpeg?cs=srgb&fm=jpg&w=1280" alt="Mostrador de carnicería con distintos cortes de carne" loading="eager" />
+        <div class="hero-card">
+          <span class="icon-box">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#8E1B1B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+          </span>
+          <span>
+            <strong>Pedí hoy hasta las 18 h</strong>
+            <small>y recibilo hoy de 16:30 a 20:30 h</small>
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Franja de confianza ===== -->
+    <section class="trust" aria-label="Por qué comprarnos">
+      <div class="container trust-grid">
+        <div class="trust-item reveal">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#8E1B1B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12l-1 7H7L6 3z"/><path d="M7 10l-2 11h14l-2-11"/></svg>
+          <div><strong>Cortado a pedido</strong><p>Elegí el grosor, si va limpio o con hueso, y lo preparamos así.</p></div>
+        </div>
+        <div class="trust-item reveal">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#8E1B1B" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M12 2v20M4 7l16 10M20 7L4 17"/></svg>
+          <div><strong>Cadena de frío</strong><p>Viaja refrigerado y envasado al vacío desde el mostrador hasta tu casa.</p></div>
+        </div>
+        <div class="trust-item reveal">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#8E1B1B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h4"/></svg>
+          <div><strong>Pagá como prefieras</strong><p>Tarjeta, transferencia o efectivo al recibir. Cobramos el peso real.</p></div>
+        </div>
+        <div class="trust-item reveal">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#8E1B1B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 21l1.9-5.4A8 8 0 1 1 21 12z"/></svg>
+          <div><strong>Atención real</strong><p>Te escribimos si falta algo o hay que reemplazar un producto.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Categorías ===== -->
+    <section class="container categories" aria-labelledby="cat-title">
+      <div class="section-head reveal">
+        <div>
+          <span class="eyebrow">Categorías</span>
+          <h2 class="h2" id="cat-title">¿Qué necesitás hoy?</h2>
+        </div>
+        <a href="#productos" style="font-weight:600;font-size:15px">Ver todo el catálogo</a>
+      </div>
+      <div class="cat-grid" id="catGrid"><!-- se completa desde JS (CATEGORIES) --></div>
+    </section>
+
+    <!-- ===== Productos ===== -->
+    <section id="productos" class="container products" aria-labelledby="prod-title">
+      <div class="section-head reveal">
+        <div>
+          <span class="eyebrow">Más pedidos</span>
+          <h2 class="h2" id="prod-title">Lo que más sale esta semana</h2>
+        </div>
+        <div class="tabs" role="group" aria-label="Elegir sección">
+          <button type="button" class="tab" data-tab="carne" aria-pressed="true">Carnicería</button>
+          <button type="button" class="tab" data-tab="granja" aria-pressed="false">Granja</button>
+          <button type="button" class="tab" data-tab="almacen" aria-pressed="false">Almacén</button>
+        </div>
+      </div>
+      <div class="product-grid" id="productGrid" aria-live="polite"><!-- se completa desde JS (PRODUCTS) --></div>
+    </section>
+
+    <!-- ===== Combos ===== -->
+    <section id="combos" class="combos" aria-labelledby="combo-title">
+      <div class="container combos-inner">
+        <div class="combos-copy reveal">
+          <span class="eyebrow">Combos armados</span>
+          <h2 id="combo-title">El asado del domingo, resuelto en un clic.</h2>
+          <p>Cortes, achuras, carbón y lo del almacén para acompañar. Elegí para cuántos y nosotros lo armamos.</p>
+          <div class="chips" role="group" aria-label="Cantidad de personas">
+            <button type="button" class="chip" aria-pressed="true">Para 4 personas</button>
+            <button type="button" class="chip" aria-pressed="false">Para 8 personas</button>
+            <button type="button" class="chip" aria-pressed="false">Para 12 personas</button>
+          </div>
+          <a href="#productos" class="btn btn-light">Armar mi combo</a>
+        </div>
+        <div class="combos-media reveal">
+          <div class="ph">Foto: parrilla encendida</div>
+          <div class="ph">Foto: combo empaquetado</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Cómo comprar ===== -->
+    <section id="como" class="container how" aria-labelledby="how-title">
+      <div class="section-head reveal">
+        <div>
+          <span class="eyebrow">Cómo comprar</span>
+          <h2 class="h2" id="how-title">Tres pasos y listo</h2>
+        </div>
+      </div>
+      <div class="steps">
+        <div class="step reveal"><span class="step-n">01</span><h3>Armá tu pedido</h3><p>Sumá cortes por kilo y productos de almacén. Dejá indicaciones para cada corte.</p></div>
+        <div class="step reveal"><span class="step-n">02</span><h3>Elegí día y horario</h3><p>Envío a domicilio o retiro en el local. Te confirmamos por WhatsApp.</p></div>
+        <div class="step reveal"><span class="step-n">03</span><h3>Pagás el peso real</h3><p>Pesamos al preparar y ajustamos el total antes de cobrar. Sin sorpresas.</p></div>
+      </div>
+    </section>
+
+    <!-- ===== Preguntas frecuentes ===== -->
+    <section class="container faq" aria-labelledby="faq-title">
+      <h2 class="h2 reveal" id="faq-title">Preguntas frecuentes</h2>
+      <div class="faq-list" id="faqList"><!-- se completa desde JS (FAQS) --></div>
+    </section>
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div class="footer-col">
+        <span class="footer-brand">[Tu Marca]</span>
+        <span>Carnicería y almacén de barrio, ahora también online.</span>
+      </div>
+      <div class="footer-col">
+        <strong>Local</strong>
+        <span>[DIRECCIÓN]</span>
+        <span>Lun a Sáb · 7:30 a 13 y 16:30 a 20:30</span>
+      </div>
+      <div class="footer-col">
+        <strong>Contacto</strong>
+        <a href="https://wa.me/[NUMERO]">WhatsApp [NÚMERO]</a>
+        <a href="mailto:[EMAIL]">[EMAIL]</a>
+      </div>
+      <div class="footer-col">
+        <strong>Ayuda</strong>
+        <a href="#como">Cómo comprar</a>
+        <a href="#">Zonas de envío</a>
+        <a href="#">Cambios y devoluciones</a>
+      </div>
+    </div>
+    <div class="container footer-legal">
+      <span>© <span id="year">2026</span> [Tu Marca]. Todos los derechos reservados.</span>
+      <span>Habilitación municipal N° [NÚMERO] · CUIT [CUIT]</span>
+    </div>
+  </footer>
+
+  <!-- ===== Barra flotante de carrito ===== -->
+  <div class="cartbar" id="cartbar" aria-hidden="true">
+    <div class="cartbar-inner">
+      <span><strong data-cart-count>0</strong> <span id="cartWord">productos</span> en tu carrito</span>
+      <button type="button" id="cartbarBtn" tabindex="-1">Ver carrito</button>
+    </div>
+  </div>
+
+  <!-- ===== Toast ===== -->
+  <div class="toast" id="toast" role="status" aria-live="polite">
+    <span class="toast-icon" aria-hidden="true">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+    </span>
+    <span id="toastMessage">Agregado correctamente</span>
+  </div>
+
+  <!-- ===== Drawer de carrito ===== -->
+  <div class="cart-overlay" id="cartOverlay"></div>
+  <div class="cart-drawer" id="cartDrawer" role="dialog" aria-modal="true" aria-labelledby="cartDrawerTitle" aria-hidden="true">
+    <div class="cart-drawer-head">
+      <h2 id="cartDrawerTitle">Tu carrito</h2>
+      <button type="button" class="cart-drawer-close" id="cartCloseBtn" aria-label="Cerrar carrito">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <div class="cart-drawer-body" id="cartDrawerBody"></div>
+    <div class="cart-drawer-foot">
+      <div class="cart-total-row"><span>Total estimado</span><b id="cartTotal">$ 0</b></div>
+      <p class="cart-total-note">La carne se cobra al peso real: este total puede ajustarse un poco al pesar.</p>
+      <a href="/checkout.html" class="btn btn-primary" id="cartContinueBtn" style="width:100%">Continuar</a>
+    </div>
+  </div>
+
+  <script>
+    // ============================================================
+    // DATOS — reemplazar por la API / CMS cuando exista backend.
+    // price: null muestra "$ X.XXX" (placeholder).
+    // byKg: true → el stepper suma de a STEP_KG kg.
+    // ============================================================
+    const STEP_KG = 0.5;
+
+    const PRODUCTS = {
+      carne: [
+        // Vacuno
+        { id: 'matambre',         name: 'Matambre',              byKg: true, price: 19800 },
+        { id: 'asado',            name: 'Asado',                 byKg: true, price: 18500, image: 'https://images.pexels.com/photos/4765653/pexels-photo-4765653.jpeg?cs=srgb&fm=jpg&w=640' },
+        { id: 'vacio',            name: 'Vacío',                 byKg: true, price: 20000 },
+        { id: 'falda',            name: 'Falda',                 byKg: true, price: 16500 },
+        { id: 'osobuco',          name: 'Osobuco',                byKg: true, price: 12000, image: 'https://images.pexels.com/photos/7741801/pexels-photo-7741801.jpeg?cs=srgb&fm=jpg&w=640' },
+        { id: 'espinazo',         name: 'Espinazo',               byKg: true, price: 9000 },
+        { id: 'paleta',           name: 'Paleta',                 byKg: true, price: 19000 },
+        { id: 'roastbeef',        name: 'Roast beef',             byKg: true, price: 18000 },
+        { id: 'chingolo',         name: 'Chingolo',               byKg: true, price: 19000 },
+        { id: 'tortuga',          name: 'Tortuga',                byKg: true, price: 19000 },
+        { id: 'nalga',            name: 'Nalga',                  byKg: true, price: 22800 },
+        { id: 'cuadrada',         name: 'Cuadrada',               byKg: true, price: 20000 },
+        { id: 'bife-lomo',        name: 'Bife de lomo',           byKg: true, price: 20000 },
+        { id: 'cuadril',          name: 'Cuadril',                byKg: true, price: 22600 },
+        { id: 'peceto',           name: 'Peceto',                 byKg: true, price: 23900 },
+        { id: 'colita-cuadril',   name: 'Colita de cuadril',      byKg: true, price: 22800 },
+        { id: 'entrana',          name: 'Entraña',                byKg: true, price: 24000 },
+        { id: 'asado-americano',  name: 'Asado americano',        byKg: true, price: 19800 },
+        { id: 'bife-chorizo',     name: 'Bife de chorizo',        byKg: true, price: 23900, image: 'https://images.pexels.com/photos/5313880/pexels-photo-5313880.jpeg?cs=srgb&fm=jpg&w=640' },
+        { id: 'lomo',             name: 'Lomo',                   byKg: true, price: 24000 },
+        { id: 'marucha',          name: 'Marucha',                byKg: true, price: 16800 },
+        { id: 'aguja-con-hueso',  name: 'Aguja con hueso',        byKg: true, price: 16800 },
+        { id: 'tapa-asado',       name: 'Tapa de Asado',          byKg: true, price: 20000 },
+        { id: 'tapa-nalga',       name: 'Tapa de Nalga',          byKg: true, price: 20000 },
+        { id: 'bife-ancho',       name: 'Bife ancho',             byKg: true, price: 17000, image: 'https://images.pexels.com/photos/29095929/pexels-photo-29095929.jpeg?cs=srgb&fm=jpg&w=640' },
+        { id: 'bife-angosto',     name: 'Bife angosto',           byKg: true, price: 19000 },
+        { id: 'bife-con-lomo',    name: 'Bife con lomo',          byKg: true, price: 21000 },
+        // Achuras / menudencias
+        { id: 'higado',           name: 'Hígado',                 byKg: true, price: 5500 },
+        { id: 'corazon',          name: 'Corazón',                byKg: true, price: 7000, image: 'https://images.pexels.com/photos/8477066/pexels-photo-8477066.jpeg?cs=srgb&fm=jpg&w=640' },
+        { id: 'rinon',            name: 'Riñón',                  byKg: true, price: 7000 },
+        { id: 'lengua',           name: 'Lengua',                 byKg: true, price: 11000 },
+        { id: 'mondongo',         name: 'Mondongo',               byKg: true, price: 11000 },
+        { id: 'rabo',             name: 'Rabo',                   byKg: true, price: 12000 },
+        { id: 'molleja',          name: 'Molleja',                byKg: true, price: 32000 },
+        { id: 'chinchulin',       name: 'Chinchulín',             byKg: true, price: 7000 },
+        // Cerdo
+        { id: 'carre-cerdo',      name: 'Carré de cerdo',         byKg: true, price: 8500, image: 'https://images.pexels.com/photos/13279396/pexels-photo-13279396.jpeg?cs=srgb&fm=jpg&w=640' },
+        { id: 'pechito-cerdo',    name: 'Pechito de cerdo',       byKg: true, price: 8900, image: 'https://images.pexels.com/photos/7163989/pexels-photo-7163989.jpeg?cs=srgb&fm=jpg&w=640' },
+        { id: 'bondiola',         name: 'Bondiola de cerdo',      byKg: true, price: 9000 },
+        // Pollo y cordero
+        { id: 'pollo-comun',      name: 'Pollo común',            byKg: true, price: 11000 },
+        { id: 'pollo-especial',   name: 'Pollo especial',         byKg: true, price: 19000 },
+        { id: 'cordero',          name: 'Cordero',                byKg: true, price: 18000, image: 'https://images.pexels.com/photos/31732110/pexels-photo-31732110.jpeg?cs=srgb&fm=jpg&w=640' },
+        // Embutidos
+        { id: 'chorizo',          name: 'Chorizo',                byKg: true, price: 9900, image: 'https://images.pexels.com/photos/15082943/pexels-photo-15082943.jpeg?cs=srgb&fm=jpg&w=640' },
+        { id: 'morcilla',         name: 'Morcilla',               byKg: true, price: 7000 },
+        { id: 'morcilla-vasca',   name: 'Morcilla vasca',         byKg: true, price: 8500 },
+        { id: 'morcilla-fresca',  name: 'Morcilla fresca',        byKg: true, price: 9900 }
+      ],
+      almacen: [
+        { id: 'yerba',  name: 'Yerba mate',       detail: 'Paquete de 1 kg',   byKg: false, price: null, image: 'https://images.pexels.com/photos/8649382/pexels-photo-8649382.jpeg?cs=srgb&fm=jpg&w=640' },
+        { id: 'aceite', name: 'Aceite de oliva',  detail: 'Botella de 500 ml', byKg: false, price: null },
+        { id: 'arroz',  name: 'Arroz largo fino', detail: 'Paquete de 1 kg',   byKg: false, price: null, image: 'https://images.pexels.com/photos/31555431/pexels-photo-31555431.jpeg?cs=srgb&fm=jpg&w=640' },
+        { id: 'fideos', name: 'Fideos secos',     detail: 'Paquete de 500 g',  byKg: false, price: null, image: 'https://images.pexels.com/photos/4518806/pexels-photo-4518806.jpeg?cs=srgb&fm=jpg&w=640' },
+        { id: 'pure',   name: 'Puré de tomate',   detail: 'Caja de 520 g',     byKg: false, price: null, image: 'https://images.pexels.com/photos/4361645/pexels-photo-4361645.jpeg?cs=srgb&fm=jpg&w=640' },
+        { id: 'harina', name: 'Harina 000',       detail: 'Paquete de 1 kg',   byKg: false, price: null, image: 'https://images.pexels.com/photos/5441094/pexels-photo-5441094.jpeg?cs=srgb&fm=jpg&w=640' },
+        { id: 'vino',   name: 'Vino tinto',       detail: 'Botella de 750 ml', byKg: false, price: null, tag: 'Para el asado', image: 'https://images.pexels.com/photos/33993981/pexels-photo-33993981.jpeg?cs=srgb&fm=jpg&w=640' },
+        { id: 'carbon', name: 'Carbón',           detail: 'Bolsa de 4 kg',     byKg: false, price: null, image: 'https://images.pexels.com/photos/8021316/pexels-photo-8021316.jpeg?cs=srgb&fm=jpg&w=640' }
+      ],
+      granja: [
+        { id: 'pata-muslo',              name: 'Pata y muslo',               byKg: true,  price: 4900 },
+        { id: 'pata-muslo-oferta-3kg',   name: 'Pata y muslo — oferta 3 kg', byKg: false, price: 12000, detail: 'Pack de 3 kg', tag: 'Oferta' },
+        { id: 'milanesa-pollo',          name: 'Milanesa de pollo',          byKg: true,  price: 7000, image: 'https://images.pexels.com/photos/4078178/pexels-photo-4078178.jpeg?cs=srgb&fm=jpg&w=640' },
+        { id: 'milanesa-pollo-oferta-2kg', name: 'Milanesa de pollo — oferta 2 kg', byKg: false, price: 13000, detail: 'Pack de 2 kg', tag: 'Oferta' },
+        { id: 'suprema',                 name: 'Suprema',                    byKg: true,  price: 9800, image: 'https://images.pexels.com/photos/6107732/pexels-photo-6107732.jpeg?cs=srgb&fm=jpg&w=640' },
+        { id: 'pechuga-pollo',           name: 'Pechuga',                    byKg: true,  price: 8900, image: '/images/pechuga.png' },
+        { id: 'pollo-entero',            name: 'Pollo entero',               byKg: true,  price: 4500, image: 'https://images.pexels.com/photos/10842246/pexels-photo-10842246.jpeg?cs=srgb&fm=jpg&w=640' },
+        { id: 'alitas',                  name: 'Alitas',                     byKg: true,  price: 2500 },
+        { id: 'menudos',                 name: 'Menudos',                    byKg: true,  price: 2000 },
+        { id: 'carcasa',                 name: 'Carcasa',                    byKg: true,  price: 1000 },
+        { id: 'paty-pollo',              name: 'Paty de pollo',              byKg: true,  price: 9800 },
+        { id: 'paty-carne',              name: 'Paty de carne',              byKg: true,  price: 7000, image: 'https://images.pexels.com/photos/3877666/pexels-photo-3877666.jpeg?cs=srgb&fm=jpg&w=640' },
+        { id: 'milanesa-carne',          name: 'Milanesa de carne',          byKg: true,  price: 14000 }
+      ]
+    };
+
+    const ALL_PRODUCTS = [...PRODUCTS.carne, ...PRODUCTS.granja, ...PRODUCTS.almacen];
+
+    const CATEGORIES = [
+      { name: 'Vacuno',    photo: 'cortes vacunos',       tab: 'carne' },
+      { name: 'Cerdo',     photo: 'cortes de cerdo',      tab: 'carne' },
+      { name: 'Granja',    photo: 'pollo y derivados',    tab: 'granja' },
+      { name: 'Embutidos', photo: 'chorizos y morcillas', tab: 'carne' },
+      { name: 'Almacén',   photo: 'góndola de almacén',   tab: 'almacen' },
+      { name: 'Bebidas',   photo: 'vinos y gaseosas',     tab: 'almacen' }
+    ];
+
+    const FAQS = [
+      { q: '¿Hasta dónde hacen envíos?', a: 'Llegamos a [ZONAS]. Al cargar tu dirección te mostramos el costo y los horarios disponibles.' },
+      { q: '¿Cuándo me llega el pedido?', a: 'Hacemos envíos durante el día, de 7:30 a 13 h y de 16:30 a 20:30 h. Si confirmás tu pedido antes de las 18 h te lo entregamos el mismo día; después de esa hora, se entrega al día siguiente.' },
+      { q: '¿Cómo se cobra la carne si el peso varía?', a: 'Cada corte se pesa al prepararlo. Si el peso final es distinto al pedido, ajustamos el total antes de cobrar y te avisamos.' },
+      { q: '¿Qué medios de pago aceptan?', a: 'Tarjetas de débito y crédito, transferencia bancaria y efectivo al momento de la entrega.' },
+      { q: '¿Qué pasa si un producto no está disponible?', a: 'Te escribimos para ofrecerte un reemplazo similar o descontarlo del pedido, como prefieras.' }
+    ];
+
+    // ============================================================
+    // ESTADO
+    // ============================================================
+    const state = {
+      tab: 'carne',
+      query: '',
+      cart: loadCart() // { [id]: { qty: cantidad de pasos, note: indicaciones del cliente } }
+    };
+
+    function loadCart() {
+      let raw = {};
+      try { raw = JSON.parse(localStorage.getItem('cart') || '{}'); } catch (e) { raw = {}; }
+      const normalized = {};
+      for (const [id, value] of Object.entries(raw)) {
+        // Compatibilidad con el formato viejo, donde cada valor era un número (pasos) directo.
+        if (typeof value === 'number') normalized[id] = { qty: value, note: '' };
+        else if (value && typeof value === 'object') normalized[id] = { qty: value.qty || 0, note: value.note || '' };
+      }
+      return normalized;
+    }
+    function saveCart() {
+      try { localStorage.setItem('cart', JSON.stringify(state.cart)); } catch (e) {}
+    }
+
+    const money = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', maximumFractionDigits: 0 });
+    const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+    function qtyLabel(p, q) {
+      return p.byKg ? String(q * STEP_KG).replace('.', ',') + ' kg' : q + ' u.';
+    }
+
+    // ============================================================
+    // RENDER
+    // ============================================================
+    function renderCategories() {
+      document.getElementById('catGrid').innerHTML = CATEGORIES.map((c) => `
+        <a href="#productos" class="cat reveal" data-tab-link="${c.tab}">
+          <div class="ph">Foto: ${esc(c.photo)}</div>
+          <div class="cat-label"><span>${esc(c.name)}</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </div>
+        </a>`).join('');
+    }
+
+    function renderFaqs() {
+      document.getElementById('faqList').innerHTML = FAQS.map((f) => `
+        <details class="reveal">
+          <summary><span>${esc(f.q)}</span>
+            <svg class="chev" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+          </summary>
+          <p>${esc(f.a)}</p>
+        </details>`).join('');
+    }
+
+    function renderProducts() {
+      const q = state.query.trim().toLowerCase();
+      const list = q
+        ? ALL_PRODUCTS.filter((p) => (p.name + ' ' + (p.detail || '')).toLowerCase().includes(q))
+        : PRODUCTS[state.tab];
+
+      const grid = document.getElementById('productGrid');
+      if (!list.length) {
+        grid.innerHTML = `<p style="color:var(--muted)">No encontramos productos para “${esc(state.query)}”.</p>`;
+        return;
+      }
+      grid.innerHTML = list.map((p) => {
+        const n = state.cart[p.id]?.qty || 0;
+        const price = p.price == null ? '$ X.XXX' : money.format(p.price);
+        const cta = p.byKg
+          ? `<div class="kg-field">
+               <label class="sr-only" for="kg-${p.id}">Cantidad en kilos de ${esc(p.name)}</label>
+               <input type="number" id="kg-${p.id}" min="${STEP_KG}" step="${STEP_KG}" inputmode="decimal" placeholder="Ej: 1" value="${n > 0 ? (n * STEP_KG) : ''}">
+               <span>kg</span>
+             </div>
+             <button type="button" class="add-btn" data-add-kg="${p.id}">${n > 0 ? 'Actualizar carrito' : 'Agregar al carrito'}</button>`
+          : n > 0
+          ? `<div class="stepper">
+               <button type="button" data-sub="${p.id}" aria-label="Quitar uno de ${esc(p.name)}">−</button>
+               <output aria-live="polite">${qtyLabel(p, n)}</output>
+               <button type="button" data-add="${p.id}" aria-label="Agregar uno más de ${esc(p.name)}">+</button>
+             </div>`
+          : `<button type="button" class="add-btn" data-add="${p.id}">Agregar al carrito</button>`;
+        return `
+          <article class="card">
+            <div class="ph">${p.image ? `<img src="${esc(p.image)}" alt="${esc(p.name)}" loading="lazy">` : `Foto: ${esc(p.name)}`}${p.tag ? `<span class="tag">${esc(p.tag)}</span>` : ''}</div>
+            <div class="card-body">
+              <h3>${esc(p.name)}</h3>
+              ${p.detail ? `<span class="card-detail">${esc(p.detail)}</span>` : ''}
+              <div class="price"><b>${price}</b><span>${p.byKg ? '/ kg' : 'c/u'}</span></div>
+              <div class="card-cta">${cta}</div>
+            </div>
+          </article>`;
+      }).join('');
+    }
+
+    function findProduct(id) {
+      return ALL_PRODUCTS.find((p) => p.id === id);
+    }
+
+    function cartLines() {
+      return Object.entries(state.cart)
+        .map(([id, entry]) => ({ product: findProduct(id), steps: entry.qty, note: entry.note || '' }))
+        .filter((line) => line.product);
+    }
+
+    function renderCart() {
+      // Cuenta productos distintos en el carrito, no la suma de pasos de 0,5 kg
+      // (si no, 4 kg de un solo corte se veían como "8" en el badge).
+      const count = Object.keys(state.cart).length;
+      document.querySelectorAll('[data-cart-count]').forEach((el) => { el.textContent = count; });
+      document.getElementById('cartWord').textContent = count === 1 ? 'producto' : 'productos';
+      document.getElementById('cartBtn').setAttribute('aria-label', `Ver carrito, ${count} productos`);
+      const bar = document.getElementById('cartbar');
+      bar.classList.toggle('is-visible', count > 0);
+      bar.setAttribute('aria-hidden', count > 0 ? 'false' : 'true');
+      bar.querySelector('button').tabIndex = count > 0 ? 0 : -1;
+
+      const lines = cartLines();
+      const body = document.getElementById('cartDrawerBody');
+      if (!lines.length) {
+        body.innerHTML = '<p class="cart-empty">Todavía no agregaste productos.</p>';
+      } else {
+        body.innerHTML = lines.map(({ product: p, steps, note }) => {
+          const qty = qtyLabel(p, steps);
+          const subtotal = p.price == null ? null : p.price * (p.byKg ? steps * STEP_KG : steps);
+          return `
+            <div class="cart-item">
+              <div class="ph">Foto: ${esc(p.name)}</div>
+              <div class="cart-item-body">
+                <h3>${esc(p.name)}</h3>
+                <div class="cart-item-qty">${qty}${p.byKg ? ' · estimado' : ''}</div>
+                <label class="sr-only" for="note-${p.id}">Indicaciones para ${esc(p.name)}</label>
+                <input type="text" class="cart-item-note" id="note-${p.id}" data-note="${p.id}"
+                  placeholder="Especificación (ej: banderita, sin grasa)" value="${esc(note)}">
+                <div class="cart-item-row">
+                  <span class="cart-item-price">${subtotal == null ? '$ X.XXX' : money.format(subtotal)}</span>
+                  <button type="button" class="cart-item-remove" data-remove="${p.id}">Quitar</button>
+                </div>
+              </div>
+            </div>`;
+        }).join('');
+      }
+
+      const total = lines.reduce((sum, { product: p, steps }) => {
+        if (p.price == null) return sum;
+        return sum + p.price * (p.byKg ? steps * STEP_KG : steps);
+      }, 0);
+      document.getElementById('cartTotal').textContent = money.format(total);
+    }
+
+    let toastTimer = null;
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toastMessage').textContent = message;
+      toast.classList.add('is-visible');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove('is-visible'), 2000);
+    }
+
+    function openCart() {
+      document.getElementById('cartDrawer').classList.add('is-open');
+      document.getElementById('cartDrawer').setAttribute('aria-hidden', 'false');
+      document.getElementById('cartOverlay').classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+      document.getElementById('cartCloseBtn').focus();
+    }
+
+    function closeCart() {
+      document.getElementById('cartDrawer').classList.remove('is-open');
+      document.getElementById('cartDrawer').setAttribute('aria-hidden', 'true');
+      document.getElementById('cartOverlay').classList.remove('is-open');
+      document.body.style.overflow = '';
+    }
+
+    function setTab(tab) {
+      state.tab = tab;
+      state.query = '';
+      document.getElementById('buscar').value = '';
+      document.querySelectorAll('.tab').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.tab === tab)));
+      renderProducts();
+    }
+
+    function changeQty(id, d) {
+      const note = state.cart[id]?.note || '';
+      const n = Math.max(0, (state.cart[id]?.qty || 0) + d);
+      if (n === 0) delete state.cart[id]; else state.cart[id] = { qty: n, note };
+      saveCart();
+      renderProducts();
+      renderCart();
+    }
+
+    function setKgQty(id, kg) {
+      const note = state.cart[id]?.note || '';
+      const steps = Math.max(0, Math.round(kg / STEP_KG));
+      if (steps === 0) delete state.cart[id]; else state.cart[id] = { qty: steps, note };
+      saveCart();
+      renderProducts();
+      renderCart();
+    }
+
+    function setNote(id, note) {
+      if (!state.cart[id]) return;
+      state.cart[id].note = note;
+      saveCart();
+    }
+
+    function removeItem(id) {
+      delete state.cart[id];
+      saveCart();
+      renderProducts();
+      renderCart();
+    }
+
+    // ============================================================
+    // EVENTOS
+    // ============================================================
+    document.addEventListener('click', (e) => {
+      const add = e.target.closest('[data-add]');
+      const sub = e.target.closest('[data-sub]');
+      const addKg = e.target.closest('[data-add-kg]');
+      const remove = e.target.closest('[data-remove]');
+      const tab = e.target.closest('.tab');
+      const tabLink = e.target.closest('[data-tab-link]');
+      const chip = e.target.closest('.chip');
+      const openTrigger = e.target.closest('#cartBtn, #cartbarBtn');
+      const closeTrigger = e.target.closest('#cartCloseBtn, #cartOverlay');
+      if (add) { changeQty(add.dataset.add, 1); showToast('Agregado correctamente'); }
+      else if (sub) changeQty(sub.dataset.sub, -1);
+      else if (addKg) {
+        const input = document.getElementById(`kg-${addKg.dataset.addKg}`);
+        const kg = parseFloat(input.value);
+        if (!kg || kg <= 0) { input.focus(); return; }
+        setKgQty(addKg.dataset.addKg, kg);
+        showToast('Agregado correctamente');
+      }
+      else if (remove) removeItem(remove.dataset.remove);
+      else if (tab) setTab(tab.dataset.tab);
+      else if (tabLink) setTab(tabLink.dataset.tabLink);
+      else if (openTrigger) { e.preventDefault(); openCart(); }
+      else if (closeTrigger) closeCart();
+      if (chip) chip.parentElement.querySelectorAll('.chip').forEach((c) => c.setAttribute('aria-pressed', String(c === chip)));
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && document.getElementById('cartDrawer').classList.contains('is-open')) closeCart();
+    });
+
+    // 'input', no 'click': guarda sin re-renderizar el drawer (si no, se pierde el foco al tipear).
+    document.addEventListener('input', (e) => {
+      const noteInput = e.target.closest('[data-note]');
+      if (noteInput) setNote(noteInput.dataset.note, noteInput.value);
+    });
+
+    document.getElementById('cartContinueBtn').addEventListener('click', (e) => {
+      const lines = cartLines();
+      if (!lines.length) { e.preventDefault(); return; }
+      const snapshot = {
+        items: lines.map(({ product: p, steps, note }) => ({
+          productId: p.id,
+          name: p.name,
+          qty: qtyLabel(p, steps),
+          quantity: p.byKg ? steps * STEP_KG : steps,
+          note: note || null,
+          subtotal: p.price == null ? null : p.price * (p.byKg ? steps * STEP_KG : steps)
+        })),
+        total: lines.reduce((sum, { product: p, steps }) => sum + (p.price == null ? 0 : p.price * (p.byKg ? steps * STEP_KG : steps)), 0)
+      };
+      try { sessionStorage.setItem('checkoutSnapshot', JSON.stringify(snapshot)); } catch (err) {}
+    });
+
+    document.getElementById('buscar').addEventListener('input', (e) => {
+      state.query = e.target.value;
+      renderProducts();
+    });
+    document.querySelector('.search').addEventListener('submit', (e) => {
+      e.preventDefault();
+      document.getElementById('productos').scrollIntoView();
+    });
+
+    // Sombra del header al scrollear
+    const header = document.getElementById('header');
+    const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 8);
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    // ============================================================
+    // INIT
+    // ============================================================
+    document.documentElement.classList.add('js');
+    document.getElementById('year').textContent = new Date().getFullYear();
+    renderCategories();
+    renderFaqs();
+    renderProducts();
+    renderCart();
+    onScroll();
+
+    // Fallback de "reveal" para navegadores sin animation-timeline
+    if (!CSS.supports('animation-timeline: view()') && 'IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((en) => { if (en.isIntersecting) { en.target.classList.add('is-in'); io.unobserve(en.target); } });
+      }, { rootMargin: '0px 0px -10% 0px' });
+      document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+
+      // Parallax simple del hero
+      const photo = document.querySelector('.hero-photo');
+      if (photo && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        window.addEventListener('scroll', () => {
+          const y = Math.min(window.scrollY, 700) / 700;
+          photo.style.transform = `translateY(${y * 60}px) scale(${1.02 + y * 0.04})`;
+        }, { passive: true });
+      }
+    }
+  </script>
+</body>
+</html>

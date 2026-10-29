@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="es-AR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mi perfil · [Tu Marca]</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <script type="module" src="/src/pages/perfil.ts"></script>
+  </head>
+  <body>
+    <main class="min-h-screen px-4 py-10">
+      <div class="w-full max-w-lg mx-auto">
+        <div class="flex items-center justify-between mb-8">
+          <a href="/" class="font-display font-extrabold text-xl">[Tu Marca]</a>
+          <button type="button" id="logout-btn" class="text-sm font-semibold text-muted hover:text-ink">
+            Cerrar sesión
+          </button>
+        </div>
+
+        <div class="bg-white border border-line rounded-md p-6 sm:p-8">
+          <h1 class="font-display font-extrabold text-2xl mb-1">Mi perfil</h1>
+          <p class="text-muted text-sm mb-6">
+            Estos datos los usamos para entregarte el pedido. Nombre, apellido y teléfono son obligatorios.
+          </p>
+
+          <p id="loading" class="text-sm text-muted">Cargando…</p>
+
+          <form id="profile-form" novalidate class="space-y-4 hidden">
+            <div>
+              <label class="field-label" for="firstName">Nombre</label>
+              <input class="field-input" type="text" id="firstName" name="firstName" autocomplete="given-name" />
+              <p class="field-error hidden" id="firstName-error"></p>
+            </div>
+            <div>
+              <label class="field-label" for="lastName">Apellido</label>
+              <input class="field-input" type="text" id="lastName" name="lastName" autocomplete="family-name" />
+              <p class="field-error hidden" id="lastName-error"></p>
+            </div>
+            <div>
+              <label class="field-label" for="phone">Teléfono</label>
+              <input class="field-input" type="tel" id="phone" name="phone" autocomplete="tel" />
+              <p class="field-error hidden" id="phone-error"></p>
+            </div>
+            <div>
+              <div class="flex items-center justify-between mb-1">
+                <label class="field-label mb-0" for="addressText">Dirección</label>
+                <button type="button" id="geolocate-btn" class="text-sm font-semibold text-accent">
+                  Usar mi ubicación actual
+                </button>
+              </div>
+              <input class="field-input" type="text" id="addressText" name="addressText" autocomplete="street-address" />
+              <p class="field-error hidden" id="geolocate-error"></p>
+              <input type="hidden" id="addressLat" />
+              <input type="hidden" id="addressLng" />
+            </div>
+
+            <p class="field-error hidden" id="form-error" role="alert"></p>
+            <p class="text-sm text-[color:var(--color-ok)] hidden" id="form-success" role="status"></p>
+
+            <button class="btn-primary" type="submit" id="submit-btn">Guardar</button>
+          </form>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

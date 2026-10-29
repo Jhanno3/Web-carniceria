@@ -1,0 +1,127 @@
+@import "tailwindcss";
+
+/* Mismos tokens que :root en index.html (ver AGENTS.md "Sistema visual") — portados a Tailwind v4. */
+@theme {
+  --color-accent: #8e1b1b;
+  --color-accent-hover: #6e1414;
+  --color-accent-soft: #f8ecec;
+  --color-ink: #1c1a18;
+  --color-ink-2: #4a4540;
+  --color-muted: #5f5a54;
+  --color-ok: #1f6b4f;
+  --color-danger: #a3281f;
+  --color-surface: #faf9f7;
+  --color-surface-2: #f2efeb;
+  --color-input-bg: #f5f3f0;
+  --color-line: #e8e3dd;
+
+  /* Colores oficiales de Mercado Pago, tomados directo del kit de marca 2025
+     (navy del isologo y celeste del ícono) — no inventados. */
+  --color-mp-navy: #0a0080;
+  --color-mp-blue: #00bcff;
+  --color-mp-soft: #e6f8ff;
+
+  --font-display: "Archivo", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, sans-serif;
+
+  --radius-sm: 10px;
+  --radius-md: 16px;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-ink);
+  background: var(--color-surface);
+}
+
+.field-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.field-input {
+  width: 100%;
+  min-height: 44px;
+  padding: 0 14px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--color-line);
+  background: var(--color-input-bg);
+  font: inherit;
+  color: var(--color-ink);
+}
+
+.field-input:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 1px;
+}
+
+.field-error {
+  color: var(--color-danger);
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  width: 100%;
+  border-radius: var(--radius-sm);
+  background: var(--color-accent);
+  color: #fff;
+  font-weight: 600;
+  border: 0;
+}
+
+.btn-primary:hover {
+  background: var(--color-accent-hover);
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  width: 100%;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-ink);
+  font-weight: 600;
+  border: 1.5px solid var(--color-ink);
+}
+
+/* Opción de pago con Mercado Pago: logo + colores oficiales de su kit de marca. */
+.payment-option {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 76px;
+  padding: 14px 20px;
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--color-line);
+  cursor: pointer;
+}
+
+.payment-option input[type="radio"] {
+  accent-color: var(--color-mp-navy);
+  width: 20px;
+  height: 20px;
+}
+
+.payment-option img {
+  height: 36px;
+  width: auto;
+}
+
+.payment-option:has(input:checked) {
+  border-color: var(--color-mp-blue);
+  background: var(--color-mp-soft);
+}

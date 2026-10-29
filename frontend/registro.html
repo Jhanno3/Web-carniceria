@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="es-AR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Crear cuenta · [Tu Marca]</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <script type="module" src="/src/pages/registro.ts"></script>
+  </head>
+  <body>
+    <main class="min-h-screen flex items-center justify-center px-4 py-10">
+      <div class="w-full max-w-sm">
+        <a href="/" class="block text-center font-display font-extrabold text-xl mb-8">[Tu Marca]</a>
+        <div class="bg-white border border-line rounded-md p-6 sm:p-8">
+          <h1 class="font-display font-extrabold text-2xl mb-1">Creá tu cuenta</h1>
+          <p class="text-muted text-sm mb-6">Para armar pedidos y ver su estado.</p>
+
+          <form id="register-form" novalidate class="space-y-4">
+            <div>
+              <label class="field-label" for="email">Email</label>
+              <input class="field-input" type="email" id="email" name="email" autocomplete="email" required />
+              <p class="field-error hidden" id="email-error"></p>
+            </div>
+            <div>
+              <label class="field-label" for="password">Contraseña</label>
+              <input
+                class="field-input"
+                type="password"
+                id="password"
+                name="password"
+                autocomplete="new-password"
+                required
+              />
+              <p class="field-error hidden" id="password-error"></p>
+            </div>
+
+            <p class="field-error hidden" id="form-error" role="alert"></p>
+            <p class="text-sm text-[color:var(--color-ok)] hidden" id="form-success" role="status"></p>
+
+            <button class="btn-primary" type="submit" id="submit-btn">Crear cuenta</button>
+          </form>
+
+          <p class="text-sm text-muted mt-6 text-center">
+            ¿Ya tenés cuenta? <a class="text-accent font-semibold" href="/login.html">Iniciá sesión</a>
+          </p>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

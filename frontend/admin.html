@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="es-AR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin · Pedidos · [Tu Marca]</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <script type="module" src="/src/pages/admin.ts"></script>
+  </head>
+  <body>
+    <main class="min-h-screen px-4 py-10">
+      <div class="w-full max-w-4xl mx-auto">
+        <div class="flex items-center justify-between mb-8">
+          <a href="/" class="font-display font-extrabold text-xl">[Tu Marca]</a>
+          <span class="text-sm font-semibold text-muted">Panel admin</span>
+        </div>
+
+        <h1 class="font-display font-extrabold text-2xl mb-1">Pedidos</h1>
+        <p class="text-muted text-sm mb-6">
+          Vista mínima para enterarte de los pedidos nuevos. El panel completo (filtros, cambiar estado,
+          historial por cliente) queda para una spec futura.
+        </p>
+
+        <p id="loading" class="text-sm text-muted">Cargando…</p>
+        <p id="empty" class="hidden text-sm text-muted">Todavía no hay pedidos.</p>
+
+        <div id="orders-list" class="space-y-4"></div>
+      </div>
+    </main>
+  </body>
+</html>
